@@ -6,6 +6,7 @@ BIRTH_YEAR = "birth_date"
 PARTY = "party"
 CITY = "city"
 
+
 def find_young_dems(boe_voter_csv):
     """
     Find all dems in Cleveland Heights under a certain age
