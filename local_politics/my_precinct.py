@@ -5,8 +5,9 @@ import pandas as pd
 
 def find_dems_in_my_precinct(boe_voter_csv):
     """
+    find all dems in my precinct
 
-    :param boe_voter_csv:
+    :param boe_voter_csv: board of elections csv file
     :return:
     """
 
