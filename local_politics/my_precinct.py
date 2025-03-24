@@ -16,7 +16,7 @@ WARD = "ward"
 PRECINCT = "pct"
 
 
-def search_precinct_for_dems(df, city: str, ward: int, precinct: CapitalLetter, party: Optional[PartyType] = None):
+def search_precinct_for_voters(df, city: str, ward: int, precinct: CapitalLetter, party: Optional[PartyType] = None):
     """
     searches a Pandas DataFrame representing voters for
     all voters in a particular ward/precinct in a particular city.
