@@ -1,22 +1,3 @@
-def filter_by_column_value(df, column, value, keep: bool = True):
-    """
-    filter a dataframe and only keep/discard entries with a 'column' entry equal to 'value'
-
-    eg. filter_by_column_value(df, 'city', 'boston', bool=True) will return a dataframe
-    of all entries where the 'city' column has value 'boston'
-
-    :param df: pandas dataframe
-    :param column: column header/index
-    :param value: value at the header/key
-    :param keep: Set to true to keep matches, false to discard them
-    :return: filtered pandas dataframe
-    """
-    if keep:
-        return df[df[column] == value]
-    else:
-        return df[df[column] != value]
-
-
 def filter_by_mapping(df, mapping):
     """
     use a key value mapping to filter out
