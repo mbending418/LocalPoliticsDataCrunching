@@ -1,3 +1,5 @@
+import click
+
 from utils.filter_dataframe import filter_by_mapping
 from typing import Literal, Optional, Dict
 import pandas as pd
@@ -101,3 +103,13 @@ def new_cleveland_heights_voter_search(boe_voter_csv):
 
     new_dems_spring_2024_df = find_voters_by_history(boe_df, FirstTimeDemSpring2024, city="CLEVELAND HTS", party="DEM")
     new_dems_spring_2024_df.to_csv(f"{file_base}_new_dems_spring_2024.csv")
+
+
+@click.command
+@click.argument("filename", type=str)
+def run_new_cleveland_heights_voter_search(filename):
+    new_cleveland_heights_voter_search(filename)
+
+
+if __name__ == '__main__':
+    run_new_cleveland_heights_voter_search()

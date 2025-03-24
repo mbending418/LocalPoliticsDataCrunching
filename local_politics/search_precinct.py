@@ -1,6 +1,7 @@
 from utils.filter_dataframe import filter_by_mapping
 from typing import Literal, Optional
 import os
+import click
 import pandas as pd
 
 CapitalLetter = Literal["A", "B", "C", "D", "E", "F", "G",
@@ -53,3 +54,13 @@ def find_dems_in_my_precinct(boe_voter_csv):
     boe_df = pd.read_csv(boe_voter_csv)
     my_precinct_df = search_precinct_for_voters(boe_df, city="CLEVELAND HTS", ward=3, precinct="D", party="DEM")
     my_precinct_df.to_csv(f"{file_base}_CH3D.csv")
+
+
+@click.command
+@click.argument("filename", type=str)
+def run_find_dems_in_my_precinct(filename):
+    find_dems_in_my_precinct(filename)
+
+
+if __name__ == '__main__':
+    run_find_dems_in_my_precinct()

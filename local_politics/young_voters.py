@@ -1,6 +1,7 @@
 from typing import Optional, Literal
 import os
 import pandas as pd
+import click
 
 PartyType = Literal["DEM", "REP", "NOPTY"]  # Dem means Democrat. Rep means Republican. NOPTY mean No Party
 
@@ -45,3 +46,14 @@ def find_ch_young_dems(boe_voter_csv):
 
     under_25_ch_dems = find_voters_born_after_target_year(boe_df, year=1999, city="CLEVELAND HTS", party="DEM")
     under_25_ch_dems.to_csv(f"{file_base}_under_25_dems.csv")
+
+
+@click.command()
+@click.argument('filename', type=str)
+def run_find_ch_young_dems(filename):
+    print(filename)
+    find_ch_young_dems(filename)
+
+
+if __name__ == '__main__':
+    run_find_ch_young_dems()
