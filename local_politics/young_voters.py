@@ -23,9 +23,9 @@ def find_voters_born_after_target_year(df, year: int, city: Optional[str], party
     :return:
     """
     if city is not None:
-        df = filter_by_column_value(df=df, column=CITY, value=city)
+        df = df[df[CITY] == city]
     if party is not None:
-        df = filter_by_column_value(df=df, column=PARTY, value=party)
+        df = df[df[PARTY] == party]
     return df[df[BIRTH_YEAR] > year]
 
 

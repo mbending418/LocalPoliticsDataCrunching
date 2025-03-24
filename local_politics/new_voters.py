@@ -75,9 +75,9 @@ def find_voters_by_history(df: pd.DataFrame, voting_history: Dict[str, HowVoted]
     :return: pandas dataframe of filtered voters
     """
     if city is not None:
-        df = filter_by_column_value(df=df, column=CITY, value=city)
+        df = df[df[CITY] == city]
     if party is not None:
-        df = filter_by_column_value(df=df, column=PARTY, value=party)
+        df = df[df[PARTY] == party]
     return filter_by_mapping(df, voting_history)
 
 
