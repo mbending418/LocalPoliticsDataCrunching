@@ -3,6 +3,9 @@ from typing import Literal, Optional, Dict
 import pandas as pd
 import os
 
+PARTY = "party"
+CITY = "city"
+
 SPRING_2024 = "P_03_19_2024"  # Partisan Primary
 GENERAL_2023 = "G_11_07_2023"  # General Election (non partisan)
 FALL_2023 = "S_08_08_2023"  # Special Election (non partisan)
@@ -13,6 +16,8 @@ GENERAL_2021 = "G_11_02_2021"  # General Election (non partisan)
 SPECIAL_2021 = "P_09_14_2021"  # Non-Partisan Primary/Special
 PRIMARY_2021 = "P_08_03_2021"  # Partisan Primary
 GENERAL_2020 = "G_11_03_2020"  # General Election (non partisan)
+
+PartyType = Literal["DEM", "REP", "NOPTY"]  # Dem means Democrat. Rep means Republican. NOPTY mean No Party
 
 HowVoted = Optional[Literal["Y", "D", "R"]]
 # Y means "Yes" (used for non-partisan elections)
@@ -58,19 +63,25 @@ FirstTimeDemSpring2024 = {
 }
 
 
-def find_voters_by_history(df: pd.DataFrame, voting_history: Dict[str, HowVoted]):
+def find_voters_by_history(df: pd.DataFrame, voting_history: Dict[str, HowVoted],
+                           city: Optional[str] = None, party: Optional[PartyType] = None):
     """
     find the voters in a voter database who voted with a particular voting history
 
     :param df: pandas dataframe for the voter database
     :param voting_history: dict mapping the election header to how they voted.
+    :param city: what city to narrow it down to
+    :param party: which political party the voter belongs to
     :return: pandas dataframe of filtered voters
     """
-
+    if city is not None:
+        df = filter_by_column_value(df=df, column=CITY, value=city)
+    if party is not None:
+        df = filter_by_column_value(df=df, column=PARTY, value=party)
     return filter_by_mapping(df, voting_history)
 
 
-def find_new_voters(boe_voter_csv):
+def new_cleveland_heights_voter_search(boe_voter_csv):
     """
     takes in a board of elections voter csv and filters out
     new democratic voters in cleveland heights
@@ -81,21 +92,12 @@ def find_new_voters(boe_voter_csv):
     file_base = os.path.splitext(boe_voter_csv)[0]
 
     boe_df = pd.read_csv(boe_voter_csv)
-    ch_df = filter_by_column_value(df=boe_df, column="city", value="CLEVELAND HTS")
-    ch_dems_df = filter_by_column_value(df=ch_df, column="party", value="DEM")
-    ch_dems_df.to_csv(f"{file_base}_ch_dems.csv")
 
-    new_fall_2023_df = find_voters_by_history(ch_df, FirstTimeFall2023)
+    new_fall_2023_df = find_voters_by_history(boe_df, FirstTimeFall2023, city="CLEVELAND HTS")
     new_fall_2023_df.to_csv(f"{file_base}_new_fall_2023.csv")
 
-    new_dems_fall_2023_df = find_voters_by_history(ch_dems_df, FirstTimeFall2023)
-    new_dems_fall_2023_df.to_csv(f"{file_base}_new_dems_fall_2023.csv")
-
-    new_general_2023_df = find_voters_by_history(ch_df, FirstTimeGeneral2023)
+    new_general_2023_df = find_voters_by_history(boe_df, FirstTimeGeneral2023, city="CLEVELAND HTS")
     new_general_2023_df.to_csv(f"{file_base}_new_general_2023.csv")
 
-    new_dems_general_2023_df = find_voters_by_history(ch_dems_df, FirstTimeGeneral2023)
-    new_dems_general_2023_df.to_csv(f"{file_base}_new_dems_general_2023.csv")
-
-    new_dems_spring_2024_df = find_voters_by_history(ch_dems_df, FirstTimeDemSpring2024)
+    new_dems_spring_2024_df = find_voters_by_history(boe_df, FirstTimeDemSpring2024, city="CLEVELAND HTS", party="DEM")
     new_dems_spring_2024_df.to_csv(f"{file_base}_new_dems_spring_2024.csv")
