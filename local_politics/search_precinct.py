@@ -1,15 +1,15 @@
 from utils.filter_dataframe import filter_by_mapping
-from typing import Literal, Optional
+from typing import LiteralString, Optional
 import os
 import click
 import pandas as pd
 
-CapitalLetter = Literal["A", "B", "C", "D", "E", "F", "G",
-                        "H", "I", "J", "K", "L", "M", "N",
-                        "O", "P", "Q", "R", "S", "T", "U",
-                        "V", "W", "X", "Y", "Z"]
+CapitalLetter = LiteralString["A", "B", "C", "D", "E", "F", "G",
+                              "H", "I", "J", "K", "L", "M", "N",
+                              "O", "P", "Q", "R", "S", "T", "U",
+                              "V", "W", "X", "Y", "Z"]
 
-PartyType = Literal["DEM", "REP", "NOPTY"]  # Dem means Democrat. Rep means Republican. NOPTY mean No Party
+PartyType = LiteralString["DEM", "REP", "NOPTY"]  # Dem means Democrat. Rep means Republican. NOPTY mean No Party
 
 PARTY = "party"
 CITY = "city"

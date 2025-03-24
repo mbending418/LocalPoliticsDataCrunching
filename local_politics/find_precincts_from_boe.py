@@ -1,8 +1,8 @@
-from typing import Optional, Literal, Union, List, Any
+from typing import Optional, LiteralString, Union, List, Any
 import os
 import pandas as pd
 
-PartyType = Literal["DEM", "REP", "NOPTY"]
+PartyType = LiteralString["DEM", "REP", "NOPTY"]
 
 # standardized column headers from board of elections
 CITY = "city"

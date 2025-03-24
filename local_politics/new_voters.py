@@ -1,7 +1,7 @@
 import click
 
 from utils.filter_dataframe import filter_by_mapping
-from typing import Literal, Optional, Dict
+from typing import LiteralString, Optional, Dict
 import pandas as pd
 import os
 
@@ -19,9 +19,9 @@ SPECIAL_2021 = "P_09_14_2021"  # Non-Partisan Primary/Special
 PRIMARY_2021 = "P_08_03_2021"  # Partisan Primary
 GENERAL_2020 = "G_11_03_2020"  # General Election (non partisan)
 
-PartyType = Literal["DEM", "REP", "NOPTY"]  # Dem means Democrat. Rep means Republican. NOPTY mean No Party
+PartyType = LiteralString["DEM", "REP", "NOPTY"]  # Dem means Democrat. Rep means Republican. NOPTY mean No Party
 
-HowVoted = Optional[Literal["Y", "D", "R"]]
+HowVoted = Optional[LiteralString["Y", "D", "R"]]
 # Y means "Yes" (used for non-partisan elections)
 # D means "Democrat" (meaning they pulled a democratic ballot in a partisan primary)
 # R means "Republican" (meaning they pulled a republican ballot in a partisan primary)
