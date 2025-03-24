@@ -1,2 +1,6 @@
 /notebooks/*
 /data/*
+/.idea/*
+*.ipynb_checkpoints
+/test_data/voter_data_REAL_DATA.csv
+/test_data/boe_data_REAL_DATA.csv
