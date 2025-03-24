@@ -1,8 +1,9 @@
-from typing import Optional, LiteralString, Union, List, Any
+from typing import Optional, Literal, Union, List, Any
 import os
+import click
 import pandas as pd
 
-PartyType = LiteralString["DEM", "REP", "NOPTY"]
+PartyType = Literal["DEM", "REP", "NOPTY"]
 
 # standardized column headers from board of elections
 CITY = "city"
@@ -111,3 +112,21 @@ def add_precincts_by_address(voter_csv, boe_voter_csv):
 
     merged_df[[NAME_LAST_VOTER_CSV, NAME_FIRST_VOTER_CSV, ADDRESS_CSV, WARD, PRECINCT]].to_csv(
         f"{file_base}"f"_added_precinct_by_address.csv")
+
+
+@click.command
+@click.argument("voter_filename", type=str)
+@click.argument("boe_filename", type=str)
+@click.option("-n", "--by_name", is_flag=True, show_default=True, default=False, help="match by name")
+@click.option("-a", "--by_address", is_flag=True, show_default=True, default=False, help="match by address")
+def run_add_precincts(voter_filename, boe_filename, by_name, by_address):
+    if not by_name and not by_address:
+        print("WARNING: No match method flagged. Please use at least one of '--by_name' or '--by_address'. Exiting.")
+    if by_name:
+        add_precincts_by_name(voter_filename, boe_filename)
+    if by_address:
+        add_precincts_by_address(voter_filename, boe_filename)
+
+
+if __name__ == '__main__':
+    run_add_precincts()
