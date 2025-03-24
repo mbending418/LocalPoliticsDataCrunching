@@ -1,15 +1,16 @@
-from utils.filter_dataframe import filter_by_mapping
-from typing import Optional
+from utils.filter_dataframe import filter_by_column_value
+from typing import Optional, Literal
 import os
 import pandas as pd
 
+PartyType = Literal["DEM", "REP", "NOPTY"]  # Dem means Democrat. Rep means Republican. NOPTY mean No Party
 
 BIRTH_YEAR = "birth_date"
 PARTY = "party"
 CITY = "city"
 
 
-def find_dems_born_after_target_year(df, year: int, city: Optional[str]):
+def find_voters_born_after_target_year(df, year: int, city: Optional[str], party: Optional[PartyType] = None):
     """
     searches a Pandas DataFrame representing voters for
     all democratic voters born after a target year
@@ -18,17 +19,17 @@ def find_dems_born_after_target_year(df, year: int, city: Optional[str]):
     :param df: Pandas DataFrame of voters
     :param year: target birth year
     :param city: city to narrow the search to
+    :param party: what political party to optionally narrow the search to
     :return:
     """
-    voter_filter = {
-        PARTY: "DEM",
-        CITY: city,
-    }
-    filtered_df = filter_by_mapping(df, voter_filter)
-    return filtered_df[filtered_df[BIRTH_YEAR] > year]
+    if city is not None:
+        df = filter_by_column_value(df=df, column=CITY, value=city)
+    if party is not None:
+        df = filter_by_column_value(df=df, column=PARTY, value=party)
+    return df[df[BIRTH_YEAR] > year]
 
 
-def find_young_dems(boe_voter_csv):
+def find_ch_young_dems(boe_voter_csv):
     """
     Find all dems in Cleveland Heights under a certain age
 
@@ -40,8 +41,8 @@ def find_young_dems(boe_voter_csv):
 
     boe_df = pd.read_csv(boe_voter_csv)
 
-    under_35_ch_dems = find_dems_born_after_target_year(boe_df, year=1989, city="CLEVELAND HTS")
+    under_35_ch_dems = find_voters_born_after_target_year(boe_df, year=1989, city="CLEVELAND HTS", party="DEM")
     under_35_ch_dems.to_csv(f"{file_base}_under_35_dems.csv")
 
-    under_25_ch_dems = find_dems_born_after_target_year(boe_df, year=1999, city="CLEVELAND HTS")
+    under_25_ch_dems = find_voters_born_after_target_year(boe_df, year=1999, city="CLEVELAND HTS", party="DEM")
     under_25_ch_dems.to_csv(f"{file_base}_under_25_dems.csv")
