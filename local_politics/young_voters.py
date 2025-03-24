@@ -1,9 +1,9 @@
-from typing import Optional, LiteralString
+from typing import Optional, Literal
 import os
 import pandas as pd
 import click
 
-PartyType = LiteralString["DEM", "REP", "NOPTY"]  # Dem means Democrat. Rep means Republican. NOPTY mean No Party
+PartyType = Literal["DEM", "REP", "NOPTY"]  # Dem means Democrat. Rep means Republican. NOPTY mean No Party
 
 BIRTH_YEAR = "birth_date"
 PARTY = "party"
