@@ -27,7 +27,7 @@ def search_precinct_for_dems(df, city: str, ward: int, precinct: CapitalLetter, 
     :param city: city to search
     :param ward: ward to search
     :param precinct: precinct to search
-    :param party: what political party to narrow the search to
+    :param party: what political party to optionally narrow the search to
     :return:
     """
     voter_filter = {
