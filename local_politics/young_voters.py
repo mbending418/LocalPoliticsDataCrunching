@@ -51,7 +51,6 @@ def find_ch_young_dems(boe_voter_csv):
 @click.command()
 @click.argument('filename', type=str)
 def run_find_ch_young_dems(filename):
-    print(filename)
     find_ch_young_dems(filename)
 
 
