@@ -53,6 +53,14 @@ How to run:
 python -m local_politics.new_voters test_data/boe_data.csv
 ```
 
+### search_by_name.py
+This script searches for voters by name (optionally narrows it down by city)
+
+How to run:
+```
+python -m local_politics.search_by_name test_data/boe_data.csv NAMEL --first_name NAMEA --city BEACHWOOD
+```
+
 ### search_precinct.py
 This script finds new voters in my ward/precinct in Cleveland Heights (CH3D).
 
